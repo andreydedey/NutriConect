@@ -1,0 +1,49 @@
+@import url("../root.css");
+
+.sidebar {
+    background-color: var(--green-color);
+    height: 100vh;
+}
+
+#logo-nutri-connect {
+    display: block;
+    width: 100%;
+}
+
+#fundo-background {
+    display: block;
+    width: 100%;
+}
+
+.users-label {
+    font-family: var(--font-primary);
+}
+
+/* .users-form {
+
+} */
+
+.submit-button {
+    color: black;
+    background-color: var(--light-green);
+}
+
+.submit-button:hover {
+    background-color: var(--green-color);
+}
+
+#footer-text {
+    font: bold 1rem var(--font-primary), sans-serif;
+}
+
+#footer-link {
+    background-color: white;
+    border: 2px solid var(--green-color);
+    border-radius: 30px;
+    width: 120px;
+}
+
+#footer-link:hover {
+    color: white;
+    background-color: var(--green-color);
+}

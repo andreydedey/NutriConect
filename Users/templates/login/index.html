@@ -1,0 +1,41 @@
+{% extends "UsersBase.html" %}
+{% load static %}
+
+{% block 'title' %}Login{% endblock %}
+
+{% block 'head' %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/Users/login.css' %}">
+{% endblock %}
+
+{% block 'content' %}
+    <div class="container register-area w-75">
+        <h1>Welcome!</h1>
+        <h2>Register your account</h2>
+        <hr>
+        <form class="row g-2" action="{% url 'login' %}" method="post"> {% csrf_token %}
+            <div class="col-md-12">
+                <label for="username" class="form-label users-label">Username</label>
+                <input class="form-control users-form" type="text" name="username" id="username">
+            </div>
+            <div class="col-md-12">
+                <label for="email" class="form-label users-label">E-mail</label>
+                <input class="form-control users-form" type="email" name="email" id="email">
+            </div>
+            <div class="col-md-6">
+                <label for="password" class="form-label users-label">Password</label>
+                <input class="form-control users-form" type="password" name="password" id="password">
+            </div>
+            <div class="col-md-6 my-2">
+                <label for="confirm-password" class="form-label users-label">Confirm password</label>
+                <input class="form-control users-form" type="password" name="confirm-password" id="confirm-password">
+            </div>
+            <div class="col-12">
+                <button class="submit-button btn w-25" type="submit">Register</button>
+            </div>
+        </form>
+            <h2 id="footer-text" class="my-5">Já possui uma conta ? &nbsp <a id="footer-link" class="btn" href="#">Logar</a></h2>
+        </div>
+    </div>
+
+{% endblock %}
