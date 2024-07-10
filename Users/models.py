@@ -3,40 +3,20 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Users(AbstractUser):
-    is_nutritionist = models.BooleanField(default=False)
-
-
-class Admin(Users):
     pass
 
 
-class Nutritionist(Users):
-    nutritionist_groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='nutritionist_set',
-        blank=True
-    )
-    nutritionist_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='nutritionist_permissions',
-        blank=True
-    )
+class Patient(models.Model):
+    SEX_CHOICES = [
+        ('M', 'Masculino'),
+        ('F', 'Feminino')
+    ]
 
+    username = models.CharField(max_length=100)
+    age = models.IntegerField()
+    email = models.CharField(max_length=100, unique=True)
+    tel = models.CharField(max_length=15)
+    sex = models.CharField(max_length=1, choices=SEX_CHOICES)
 
-class Patient(Users):
-    patient_nutritionist = models.ForeignKey(
-        Nutritionist, 
-        on_delete=models.SET_NULL, 
-        blank=True, 
-        null=True
-    )
-    patient_groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='patient_set',
-        blank=True
-    )
-    patient_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='patient_permissions',
-        blank=True
-    )
+    def __str__(self):
+        return self.username

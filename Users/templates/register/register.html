@@ -1,19 +1,23 @@
 {% extends "UsersBase.html" %}
 {% load static %}
 
-{% block 'title' %}Login{% endblock %}
-
-{% block 'head' %}
-    {{ block.super }}
-    <link rel="stylesheet" href="{% static 'css/Users/login.css' %}">
-{% endblock %}
+{% block 'title' %}Register{% endblock %}
 
 {% block 'content' %}
-    <div class="container register-area w-75">
+    <div class="container information-area w-75">
+        <!-- Django messages here -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <h1>Welcome!</h1>
-        <h2>Register your account</h2>
+        <h2 id="subtitle">Enter in your account</h2>
         <hr>
-        <form class="row g-2" action="{% url 'login' %}" method="post"> {% csrf_token %}
+        <form id="register-form" class="row g-2" action="{% url 'register' %}" method="post"> {% csrf_token %}
             <div class="col-md-12">
                 <label for="username" class="form-label users-label">Username</label>
                 <input class="form-control users-form" type="text" name="username" id="username">
@@ -34,8 +38,11 @@
                 <button class="submit-button btn w-25" type="submit">Register</button>
             </div>
         </form>
-            <h2 id="footer-text" class="my-5">Já possui uma conta ? &nbsp <a id="footer-link" class="btn" href="#">Logar</a></h2>
+            <h2 id="footer-text" class="my-5">Already have an account ? &nbsp <a id="footer-link" class="btn" href="{% url 'login' %}">Log in</a></h2>
         </div>
     </div>
+{% endblock %}
 
+{% block 'script' %}
+<script src="{% static 'js/Users/register.js' %}"></script>
 {% endblock %}
