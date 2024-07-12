@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'css/home/home_base.css' %}">
+{% endblock %}
+
+{% block 'base' %}
+<header>
+    <nav class="navbar mb-2">
+        <div class="container">
+            <h1 id="logo" class="navbar-brand" href="#">NUTRI <span id="logo-span">LAB</span></h1>
+        </div>
+    </nav>
+</header>
+<div class="container-fluid">
+    <div class="row">
+
+        <aside class="col-md-3">
+            <!-- Lateral content here! -->
+            <a href="#" class="card-link">
+                <div class="card mx-auto p-3 my-3 card-lateral text-center">
+                    <img class="mx-auto mb-2" src="{% static 'img/paciente.png' %}" alt="">
+                    <h2>Gerenciar Clientes</h2>
+                </div>
+            </a>
+
+            <a href="#" class="card-link">
+                <div class="card mx-auto p-3 my-3 card-lateral text-center">
+                            <img class="mx-auto mb-2" src="{% static 'img/dados_paciente.png' %}" alt="">
+                            <h2>Dados do paciente</h2>
+                </div>
+            </a>
+
+            <a href="#" class="card-link">
+                <div class="card mx-auto p-3 my-3 card-lateral text-center">
+                    <img class="mx-auto mb-2" src="{% static 'img/plano_alimentar.png' %}" alt="">
+                    <h2>Plano alimentar</h2>
+                </div>
+            </a>
+        </aside>
+        <!-- Main content here! -->
+        <main class="col-md-9">
+        {% block 'content' %}{% endblock %}
+        </main>
+    </div>
+</div>
+{% endblock %}

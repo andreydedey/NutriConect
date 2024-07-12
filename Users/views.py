@@ -20,7 +20,7 @@ def login(request):
 
         if user is not None:
             auth.login(request, user=user)
-            return HttpResponse('user is logged in')
+            return redirect(reverse('patients'))
         
         messages.add_message(request, messages.constants.WARNING, 'Incorrect username or password')
         return redirect(reverse('login'))
