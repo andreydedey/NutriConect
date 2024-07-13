@@ -1,6 +1,78 @@
 {% extends 'home_base.html' %}
+{% load static %}
 
 {% block 'title' %}Home{% endblock %}
 
+{% block 'head' %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'css/home/patients.css' %}">
+{% endblock %}
+
 {% block 'content' %}
+
+<!-- Django messages here -->
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert {{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Add Patient
+</button>
+
+<!-- Modal of the patient -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="staticBackdropLabel">Register Patient</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'register_patient' %}" method="POST"> {% csrf_token %}
+
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <img src="{% static 'img/perfil1.png' %}" alt="imagem-perfil1">
+                        </div>
+                        <div class="col-md-10">
+                            <label for="name" class="form-label">Name</label>
+                            <input id="name" name="name" type="text" class="form-control" placeholder="type the patient name here">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sex" class="form-label">Sex</label>
+                        <select name="sex" id="sex" class="form-select">
+                            <option value="M">Masculino</option>
+                            <option value="F">Feminino</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Age</label>
+                        <input id="age" name="age" type="number" class="form-control" placeholder="00">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input id="email" name="email" type="email" class="form-control" placeholder="email@example.com">
+                    </div>
+
+                    <div class="mb-2">
+                        <label for="number" class="form-label">Phone number</label>
+                        <input id="tel" name="tel" type="tel" class="form-control" placeholder="type the patient phone number here">
+                    </div>
+
+                    <div class="ms-1 mt-4 mb-2">
+                        <input id="registerPatientSubmit" type="submit" value="Register">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

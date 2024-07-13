@@ -20,6 +20,8 @@ a.card-link {
 
 a.card-link:hover .card-lateral {
     background-color: var(--darker-green);
+    width: 16rem;
+    height: 8rem;
 }
 
 .card-lateral {
