@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Users, Patient
+from .models import CustomUser, Patient
 
 # Register your models here.
-@admin.register(Users)
+@admin.register(CustomUser)
 class NutritionistAdmin(admin.ModelAdmin):
     pass
 

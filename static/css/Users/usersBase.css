@@ -35,8 +35,9 @@
 } */
 
 .submit-button {
-    color: black;
-    background-color: var(--light-green);
+    color: white;
+    background-color: var(--green-color);
+    transition: 0.1s;
 }
 
 .submit-button:hover {

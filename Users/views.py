@@ -1,5 +1,5 @@
 from django.http import HttpResponse 
-from .models import Users
+from .models import CustomUser
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -8,6 +8,9 @@ from django.contrib import auth, messages
 
 # Create your views here.
 def login(request):
+    if request.user.is_authenticated:
+        return redirect(reverse('patients'))
+
     if request.method == 'GET':
         return render(request, "login/login.html")
 
@@ -39,7 +42,7 @@ def register(request):
             email = request.POST.get('email').strip()
             password = request.POST.get('password').strip()
 
-            user = Users.objects.create_user(username=username, email=email, password=password)
+            user = CustomUser.objects.create_user(username=username, email=email, password=password)
             user.save()
             return redirect(reverse('login'))
         

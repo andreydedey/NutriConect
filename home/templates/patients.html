@@ -19,8 +19,8 @@
     {% endfor %}
 {% endif %}
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-    Add Patient
+<button class="newPatientButton mb-4" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    New Patient
 </button>
 
 <!-- Modal of the patient -->
@@ -75,4 +75,26 @@
         </div>
     </div>
 </div>
+
+<!-- List of the patients -->
+{% for patient in patients %}
+    <div class="col-md-4">
+        <div class="card-patient mx-auto">
+            <a class="patient-link" href="#">
+                <div class="patient-photo mb-2">
+                    {% if paciente.sex == 'M' %}
+                        <img src="{% static 'img/perfil2.png' %}" alt="MaleProfile">
+                    {% endif %}
+                    {% if patient.sex == 'F' %}
+                        <img class="foto-perfil" src="{% static 'img/perfil1.png' %}" alt="FemaleProfile">
+                    {% endif %}
+                </div>
+                <p class="patient-data">{{patient.name}}</p>
+                <p class="patient-data">{{patient.age}}</p>
+                <p class="patient-data">{{patient.email}}</p>
+            </a>
+        </div>
+    </div>
+{% endfor %}
+
 {% endblock %}

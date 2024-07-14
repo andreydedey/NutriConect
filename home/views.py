@@ -9,7 +9,10 @@ from Users.models import Patient
 # Create your views here.
 @login_required
 def patients(request):
-    return render(request, 'patients.html')
+    patients = Patient.objects.filter(nutritionist=request.user)
+    return render(request, 'patients.html', {
+        "patients": patients
+    })
 
 
 def register_patient(request):
@@ -31,7 +34,8 @@ def register_patient(request):
             age=age,
             email=email,
             tel=tel,
-            sex=sex
+            sex=sex,
+            nutritionist=request.user
         )
 
         patient.save()
@@ -41,3 +45,8 @@ def register_patient(request):
 
     messages.add_message(request, messages.constants.SUCCESS, 'Patient registered with success')
     return redirect(reverse('patients'))
+
+
+@login_required
+def patient_data(request):
+    return render(request, 'patient_data.html')
