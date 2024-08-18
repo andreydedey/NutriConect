@@ -41,3 +41,58 @@ a.card-link:hover .card-lateral {
     color: white;
     font: 400 1.1rem var(--font-primary);
 }
+
+.card-patient {
+    background-color: rgb(234, 234, 234);
+    width: 85%;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.192);
+    padding: 20px;
+    transition: 0.2s;
+}
+
+.card-patient:hover {
+    background-color: rgb(214, 214, 214);
+}
+
+.patient-link {
+    color: black;
+    text-decoration: none;
+}
+
+.patient-photo {
+    text-align: center;
+}
+
+.patient-data {
+    font: bold 1rem var(--font-primary);
+    margin-bottom: 0.5rem;
+}
+
+.buttons {
+    background-color: white;
+    border: 2px solid var(--green-color);
+    border-radius: 30px;
+    height: 3rem;
+    width: 12rem;
+    transition: 0.15s;
+}
+
+
+.buttons:hover {
+    color: white;
+    background-color: var(--green-color);
+}
+
+#modalButton {
+    color: white;
+    width: 10rem;
+    height: 3.5rem;
+    background-color: var(--green-color);
+    border-radius: 4px;
+    border: none;
+    transition: 0.2s;
+}
+
+#modalButton:hover {
+    background-color: var(--darker-green);
+}

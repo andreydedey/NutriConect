@@ -19,11 +19,12 @@
     {% endfor %}
 {% endif %}
 
-<button class="newPatientButton mb-4" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+<button class="buttons mb-4" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
     New Patient
 </button>
 
 <!-- Modal of the patient -->
+ 
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -68,7 +69,7 @@
                     </div>
 
                     <div class="ms-1 mt-4 mb-2">
-                        <input id="registerPatientSubmit" type="submit" value="Register">
+                        <input id="modalButton" type="submit" value="Register">
                     </div>
                 </form>
             </div>
@@ -78,11 +79,14 @@
 
 <!-- List of the patients -->
 {% for patient in patients %}
-    <div class="col-md-4">
+    {% if forloop.first or forloop.counter0|divisibleby:3 %}
+        <div class="row">
+    {% endif %}
+    <div class="col-md-4 mb-3">
         <div class="card-patient mx-auto">
-            <a class="patient-link" href="#">
+            <a class="patient-link" href="{% url 'patient_data' patient.id %}">
                 <div class="patient-photo mb-2">
-                    {% if paciente.sex == 'M' %}
+                    {% if patient.sex == 'M' %}
                         <img src="{% static 'img/perfil2.png' %}" alt="MaleProfile">
                     {% endif %}
                     {% if patient.sex == 'F' %}
@@ -95,6 +99,10 @@
             </a>
         </div>
     </div>
+
+    {% if forloop.counter|divisibleby:3 or forloop.last %}
+        </div> <!-- close the row-->
+    {% endif %}
 {% endfor %}
 
 {% endblock %}

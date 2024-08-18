@@ -1,13 +1,195 @@
 {% extends 'home_base.html' %}
 {% load static %}
 
-{% block 'title' %}Patient_data{% endblock %}
-
-{% block 'head' %}
-    {{block.super}}
-    <!-- css here -->
-{% endblock %}
+{% block 'title' %}Patient Data{% endblock %}
 
 {% block 'content' %}
 
-{% endblock %}
+<!-- Django messages here! -->
+{% if messages %}
+{% for message in messages %}
+    <div class="alert {{message.tags}}">
+        {{message}}
+    </div>
+{% endfor %}
+{% endif %}
+
+<div class="row">
+
+<div class="col-md-3">
+    <img src="{% static 'img/perfil2.png' %}">
+</div>
+
+<div class="col-md-3 dados descricao">
+    <h4>Caio Sampaio</h4>
+    <h6>22 Anos</h6>
+</div>
+
+</div>
+<hr>
+
+
+<button class="buttons mb-4" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+Add New Patient Data
+</button>
+
+<!-- Patient Modal -->
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="staticBackdropLabel">Patient Data</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body">
+                <form action="{% url 'patient_data' patient.id %}" method="POST">{% csrf_token %}
+                    <div class="form-row">
+                        <div class='col-md'>
+                        
+                                <label for="validationServerUsername">Peso</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="--" name="peso">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend3">Kg</span>
+                                    </div>
+                                </div>
+                                                        
+                        </div>
+
+                        <div class='col-md'>
+                        
+                                <label for="validationServerUsername">Altura</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="--" name="altura">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend3">cm</span>
+                                    </div>
+                                </div>
+                                                        
+                        </div>
+
+                        
+                    </div>
+                    <br>
+                    <div class="form-row">
+                        <div class='col-md'>
+                        
+                                <label for="validationServerUsername">Percentual de gordura</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="--" name="gordura">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend3">%</span>
+                                    </div>
+                                </div>
+                                                        
+                        </div>
+
+                        <div class='col-md'>
+                        
+                                <label for="validationServerUsername">Percentual de músculo</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="--" name="musculo">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend3">%</span>
+                                    </div>
+                                </div>
+                                                        
+                        </div>
+
+                        
+                    </div>
+                    <br>
+                    <h4 class="titulo">Dados laboratoriais</h4>
+                    <div class="form-row">
+                        <div class='col-md'>
+                        
+                                <label for="validationServerUsername">Colesterol HDL</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="--" name="hdl">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend3">mg/dL</span>
+                                    </div>
+                                </div>
+                                                        
+                        </div>
+
+                        <div class='col-md'>
+                        
+                                <label for="validationServerUsername">Colesterol LDL</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="--" name="ldl">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend3">mg/dL</span>
+                                    </div>
+                                </div>
+                                                        
+                        </div>
+
+                        
+                    </div>
+                    <br>
+                    <div class="form-row">
+                        <div class='col-md'>
+                        
+                                <label for="validationServerUsername">Colesterol total</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="--" name="ctotal">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend3">mg/dL</span>
+                                    </div>
+                                </div>
+                                                        
+                        </div>
+
+                        <div class='col-md'>
+                        
+                                <label for="validationServerUsername">Triglicerídios</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="--" name="triglicerídios">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend3">mg/dL</span>
+                                    </div>
+                                </div>
+                                                        
+                        </div>
+
+                        
+                    </div>
+
+                    <br>
+
+                    <input type="submit" value="Cadastrar" class="btn btn-success">
+
+                </form>
+            </div>
+        
+        </div>
+    </div>
+</div>
+<!-- End of modal -->
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+            <th scope="col">Peso</th>
+            <th scope="col">Altura</th>
+            <th scope="col">% gordura</th>
+            <th scope="col">% músculo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">58 Kg</th>
+                <td>173 cm</td>
+                <td>19%</td>
+                <td>25%</td>
+            </tr>
+            
+        </tbody>
+    </table>
+    
+
+        
+{% endblock%}

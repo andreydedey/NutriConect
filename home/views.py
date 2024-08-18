@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from Users.models import Patient
+from .models import PatientData
+from datetime import datetime
 
 
 # Create your views here.
@@ -48,5 +50,53 @@ def register_patient(request):
 
 
 @login_required
-def patient_data(request):
-    return render(request, 'patient_data.html')
+def patient_data(request, patient_id):
+    try:
+        patient = Patient.objects.get(id=patient_id)
+    except Exception as e:
+        print(e)
+
+    if not patient.nutritionist == request.user:
+        messages.add_message(request, messages.constants.ERROR, 'This is not your patient')
+        return redirect(reverse('patients'))
+
+    return render(request, 'patient_data.html', {
+        "patient": patient
+    })
+
+
+def register_patient_data(request):
+    weight = request.POST.get('weight')
+    height = request.POST.get('height')
+    fatPercentual = request.POST.get('fatPercentual')
+    musclePercentual = request.POST.get('musclePercentual')
+    hdlColesterol = request.POST.get('hdlColesterol')
+    ldlColesterol = request.POST.get('ldlColesterol')
+    totalColesterol = request.POST.get('totalColesterol')
+    tryglycerides = request.POST.get('tryglycerides')
+
+    try:
+        patient_data = PatientData (
+            # patient = patient.id
+            date=datetime.now().date().strftime('%Y-%m-%d'),
+            weight=weight,
+            height=height,
+            fat_Percentual=fatPercentual,
+            muscle_percentual=musclePercentual,
+            hdl_colesterol=hdlColesterol,
+            ldl_colesterol=ldlColesterol,
+            total_colesterol=totalColesterol,
+            tryglycerides=tryglycerides
+        )
+
+        patient_data.save()
+    except Exception as e:
+        print(e)
+    
+
+@login_required
+def list_patients(request):
+    patients = Patient.objects.filter(nutritionist=request.user)
+    return render(request, 'list_patients.html', {
+        "patients": patients
+    })

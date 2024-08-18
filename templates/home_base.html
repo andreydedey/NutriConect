@@ -18,24 +18,24 @@
 
         <aside class="col-md-3">
             <!-- Lateral content here! -->
-            <a href="#" class="card-link">
+            <a href="{% url 'patients' %}" class="card-link">
                 <div class="card mx-auto p-3 mb-3 card-lateral text-center">
                     <img class="mx-auto mb-2" src="{% static 'img/paciente.png' %}" alt="">
-                    <h2>Gerenciar Clientes</h2>
+                    <h2>Manage patients</h2>
                 </div>
             </a>
 
-            <a href="#" class="card-link">
+            <a href="{% url 'list_patients' %}" class="card-link">
                 <div class="card mx-auto p-3 my-3 card-lateral text-center">
                             <img class="mx-auto mb-2" src="{% static 'img/dados_paciente.png' %}" alt="">
-                            <h2>Dados do paciente</h2>
+                            <h2>Patient Data</h2>
                 </div>
             </a>
 
             <a href="#" class="card-link">
                 <div class="card mx-auto p-3 my-3 card-lateral text-center">
                     <img class="mx-auto mb-2" src="{% static 'img/plano_alimentar.png' %}" alt="">
-                    <h2>Plano alimentar</h2>
+                    <h2>Meal plan</h2>
                 </div>
             </a>
         </aside>
