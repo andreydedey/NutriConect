@@ -21,8 +21,8 @@
 </div>
 
 <div class="col-md-3 dados descricao">
-    <h4>Caio Sampaio</h4>
-    <h6>22 Anos</h6>
+    <h4>{{patient.name}}</h4>
+    <h6>{{patient.age}}</h6>
 </div>
 
 </div>
@@ -59,7 +59,6 @@ Add New Patient Data
                         </div>
 
                         <div class='col-md'>
-                        j
                                 <label for="validationServerUsername">Altura</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" placeholder="--" name="altura">
@@ -173,20 +172,30 @@ Add New Patient Data
     <table class="table table-striped">
         <thead>
             <tr>
-            <th scope="col">Peso</th>
-            <th scope="col">Altura</th>
-            <th scope="col">% gordura</th>
-            <th scope="col">% músculo</th>
+            <th scope="col">Weight</th>
+            <th scope="col">Height</th>
+            <th scope="col">% fat</th>
+            <th scope="col">% muscle</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">58 Kg</th>
-                <td>173 cm</td>
-                <td>19%</td>
-                <td>25%</td>
-            </tr>
-            
+            {% if patient_data is not None %}
+                {% for data in patient_data %}
+                    <tr>
+                        <td>{{data.weight}}</td>
+                        <td>{{data.height}}</td>    
+                        <td>{{data.fat_percentual}}</td>
+                        <td>{{data.muscle_percentual}}</td>
+                    </tr>
+                {% endfor %}
+
+            {% else %}
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+            {% endif %}
+
         </tbody>
     </table>
     

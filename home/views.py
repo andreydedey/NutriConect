@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from Users.models import Patient
 from .models import PatientData
 from datetime import datetime
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # Create your views here.
@@ -59,9 +60,15 @@ def patient_data(request, patient_id):
     if not patient.nutritionist == request.user:
         messages.add_message(request, messages.constants.ERROR, 'This is not your patient')
         return redirect(reverse('patients'))
+    
+    try:
+        patient_data = PatientData.objects.get(patient=patient_id)
+    except(ObjectDoesNotExist):
+        patient_data = None
 
     return render(request, 'patient_data.html', {
-        "patient": patient
+        "patient": patient,
+        "patient_data": patient_data
     })
 
 
