@@ -1,0 +1,42 @@
+{% extends 'home_base.html' %}
+{% load static %}
+
+{% block 'content' %}
+
+    <!-- Django messages here -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{message.tags}}">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+	<h1 class="title">Choose the Patient</h1>
+    <!-- List of the patients -->
+    {% for patient in patients %}
+        {% if forloop.first or forloop.counter0|divisibleby:3 %}
+            <div class="row">
+        {% endif %}
+        <div class="col-md-4 mb-3">
+            <div class="card-patient mx-auto">
+                <a class="patient-link" href="{% url 'meal_plan_patient' patient.id %}">
+                    <div class="patient-photo mb-2">
+                        {% if patient.sex == 'M' %}
+                            <img src="{% static 'img/perfil2.png' %}" alt="MaleProfile">
+                        {% endif %}
+                        {% if patient.sex == 'F' %}
+                            <img class="foto-perfil" src="{% static 'img/perfil1.png' %}" alt="FemaleProfile">
+                        {% endif %}
+                    </div>
+                    <p class="patient-data">{{patient.name}}</p>
+                    <p class="patient-data">{{patient.age}}</p>
+                    <p class="patient-data">{{patient.email}}</p>
+                </a>
+            </div>
+        </div>
+        {% if forloop.counter|divisibleby:3 or forloop.last %}
+        </div> <!-- close the row-->
+        {% endif %}
+    {% endfor %}
+{% endblock%}

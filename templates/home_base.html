@@ -3,6 +3,7 @@
 
 {% block 'head' %}
 <link rel="stylesheet" href="{% static 'css/home/home_base.css' %}">
+<link rel="stylesheet" href="{% static 'css/home/meal_plan.css' %}">
 {% endblock %}
 
 {% block 'base' %}
@@ -32,7 +33,7 @@
                 </div>
             </a>
 
-            <a href="#" class="card-link">
+            <a href="{% url 'meal_plan_list' %}" class="card-link">
                 <div class="card mx-auto p-3 my-3 card-lateral text-center">
                     <img class="mx-auto mb-2" src="{% static 'img/plano_alimentar.png' %}" alt="">
                     <h2>Meal plan</h2>

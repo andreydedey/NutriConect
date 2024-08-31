@@ -1,0 +1,204 @@
+{% extends 'home_base.html' %}
+{% load static %}
+
+{% block 'content' %}
+
+    <!-- Django messages here -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{message.tags}}">
+                {{message}}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+
+        <div class="col-md-2">
+                {% if patient.sexo == "M"%}
+                    <img src="{% static 'img/perfil2.png' %}">
+                {% else %}
+                    <img src="{% static 'img/perfil1.png' %}">
+                {% endif %}
+        </div>
+
+        <div class="col-md-3 dados descricao" style="margin-left: -20px; margin-top: 10px;">
+            <h4>{{patient.name}}</h4>
+            <h6>{{patient.age}} years</h6>
+        </div>
+        
+    </div>
+    <hr>
+
+
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        + New Meal
+      </button>
+
+    <button type="button" class="btn btn-outline-primary">
+        Exportar refeição
+    </button>
+    
+    <br>
+    <br>
+
+    <div class="fundo-alimentar">
+        
+        <div class="refeicao">
+            <div class="head-refeicao">
+                <span>Café da manhã</span>
+
+                <span style="float: right;">07:00h</span>
+
+            </div>
+
+            <div class="body-refeicao">
+                <div class="opcao">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img width="100%" src="{% static 'img/perfil1.png' %}"> 
+                        </div>
+
+                        <div class="col-md-10">
+                            Teste 2
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="staticBackdropLabel">Patient Data</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body">
+                    
+                        <h4 class="titulo">Add meal</h4>
+
+                        <button onclick="exibe_refeicao()" type="button" class="btn btn-outline-success">
+                            + New meal
+                        </button>
+
+                        <button onclick="exibe_opcao" style="margin-left: 10px;" type="button" class="btn btn-outline-success" >
+                            + New option
+                        </button>
+                        <br>
+                        <br>
+                        
+                        <div id="form-refeicao" style="display: block;">
+                            <form action="" method="POST">{% csrf_token %}
+                                <label for="validationServerUsername">Título</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Ex: Breakfast" name="titulo">
+                                </div>
+                                <br>
+                                <label for="validationServerUsername">Time</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" placeholder="-" name="horario">
+                                </div>
+                                <br>
+                                <h5 class="titulo">Macronutrients</h5>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="validationServerUsername">Carbs</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="carboidratos">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label for="validationServerUsername">Proteins</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="" name="proteinas">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label for="validationServerUsername">Fats</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="" name="gorduras">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <br>
+                                <input type="submit" value="Cadastrar" class="btn btn-success">
+                            </form>
+                        </div>
+
+
+
+
+                        <div id="form-opcao" style="display: block;">
+                            <form action="" method="POST" enctype='multipart/form-data'>{% csrf_token %}
+
+                                <label for="validationServerUsername">Select meal</label>
+                                <div class="input-group">
+                                    <select class="form-control" name="refeicao">
+                                        <option value="">Breakfast</option>      
+                                    </select>
+                                </div>
+
+                                <br>
+
+                                <label for="validationServerUsername">Image</label>
+                                <div class="input-group">
+                                    <input type="file" class="form-control" placeholder="" name="imagem">
+                                </div>
+                                
+                                <br>
+
+                                <label for="validationServerUsername">Description</label>
+                                <div class="input-group">
+                                    <textarea class="form-control" name='descricao'>
+
+                                    </textarea>
+                                </div>
+                                <br>
+                                <input type="submit" value="Cadastrar" class="btn btn-success">
+                            </form>
+                        </div>
+
+                       
+                        
+
+                    </form>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function exibe_refeicao(){
+        const form_refeicao = document.getElementById('form-refeicao')
+        const form_opcao = document.getElementById('form-opcao')
+
+        form_refeicao.style.display = "block"
+        form_opcao.style.display = "none"
+
+    }
+
+    function exibe_opcao(){
+        const form_refeicao = document.getElementById('form-refeicao')
+        const form_opcao = document.getElementById('form-opcao')
+
+        form_refeicao.style.display = "none"
+        form_opcao.style.display = "block"
+
+    }
+</script>
+
+{% endblock%}

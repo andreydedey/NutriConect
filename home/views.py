@@ -128,3 +128,25 @@ def weight_graphic(request, patient_id):
         'labels': labels
     }
     return JsonResponse(patient_weight_data)
+
+
+def meal_plan_list(request):
+    patients = Patient.objects.filter(nutritionist=request.user)
+    return render(request, 'meal_plan_list.html', {
+        'patients': patients
+    })
+
+
+def meal_plan_patient(request, patient_id):
+    try:
+        patient = Patient.objects.get(id=patient_id)
+    except Exception:
+        patient = None
+
+    if not patient.nutritionist == request.user:
+        messages.add_message(request, messages.constants.ERROR, 'This is not your patient')
+        return redirect(reverse('meal_plan_list'))
+    
+    return render(request, 'meal_plan_patient.html', {
+        'patient': patient
+    })
