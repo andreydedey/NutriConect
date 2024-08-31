@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from Users.models import Patient
-from .models import PatientData
+from .models import Opcao, PatientData, Refeicao
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
@@ -147,6 +147,57 @@ def meal_plan_patient(request, patient_id):
         messages.add_message(request, messages.constants.ERROR, 'This is not your patient')
         return redirect(reverse('meal_plan_list'))
     
+    meals = Refeicao.objects.filter(paciente=patient).order_by('horario')
+    
+    if len(meals) == 0:
+        meals = None
+
+    options = Opcao.objects.all()
+    
     return render(request, 'meal_plan_patient.html', {
-        'patient': patient
+        'patient': patient,
+        'refeicao': meals,
+        'opcao': options
     })
+
+
+def meal(request, patient_id):
+    patient = Patient.objects.get(id=patient_id)
+    if patient.nutritionist != request.user:
+        messages.add_message(request, messages.constants.ERROR, 'Esse patient não é seu')
+        return redirect('/dados_patient/')
+
+    if request.method == "POST":
+        titulo = request.POST.get('titulo')
+        horario = request.POST.get('horario')
+        carboidratos = request.POST.get('carboidratos')
+        proteinas = request.POST.get('proteinas')
+        gorduras = request.POST.get('gorduras')
+
+        meal = Refeicao(paciente=patient,
+                      titulo=titulo,
+                      horario=horario,
+                      carboidratos=carboidratos,
+                      proteinas=proteinas,
+                      gorduras=gorduras)
+
+        meal.save()
+
+        messages.add_message(request, messages.constants.SUCCESS, 'Meal Registred')
+        return redirect(reverse('meal_plan_patient', args=[patient_id]))
+
+
+def option(request, patient_id):
+    if request.method == "POST":
+        id_refeicao = request.POST.get('refeicao')
+        imagem = request.FILES.get('imagem')
+        descricao = request.POST.get("descricao")
+
+        option = Opcao(refeicao_id=id_refeicao,
+                        imagem=imagem,
+                        descricao=descricao)
+
+        option.save()
+
+        messages.add_message(request, messages.constants.SUCCESS, 'Opcao cadastrada')
+        return redirect(reverse('meal_plan_patient', args=[patient_id]))

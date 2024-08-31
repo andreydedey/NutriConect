@@ -44,31 +44,39 @@
 
     <div class="fundo-alimentar">
         
-        <div class="refeicao">
-            <div class="head-refeicao">
-                <span>Café da manhã</span>
+        {% for re in refeicao %}
+            <div class="refeicao">
+                <div class="head-refeicao">
+                    <span>{{re.titulo}}</span>
 
-                <span style="float: right;">07:00h</span>
+                    <span style="float: right;">{{re.horario}}h</span>
 
-            </div>
+                </div>
 
-            <div class="body-refeicao">
-                <div class="opcao">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <img width="100%" src="{% static 'img/perfil1.png' %}"> 
-                        </div>
+                <div class="body-refeicao">
+                    {% for o1 in opcao%}
+                        {% if o1.refeicao == re %}
+                            <div class="opcao">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img width="100%" src="{{o1.imagem.url}}"> 
+                                    </div>
 
-                        <div class="col-md-10">
-                            Teste 2
-                        </div>
+                                    <div class="col-md-10">
+                                        {{o1.descricao}}
+                                    </div>
 
-                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+
                 </div>
 
             </div>
-
-        </div>
+            <br>
+        {% endfor %}
 
     </div>
 
@@ -89,14 +97,14 @@
                             + New meal
                         </button>
 
-                        <button onclick="exibe_opcao" style="margin-left: 10px;" type="button" class="btn btn-outline-success" >
+                        <button onclick="exibe_opcao()" style="margin-left: 10px;" type="button" class="btn btn-outline-success" >
                             + New option
                         </button>
                         <br>
                         <br>
                         
                         <div id="form-refeicao" style="display: block;">
-                            <form action="" method="POST">{% csrf_token %}
+                            <form action="{% url 'meal' patient.id %}" method="POST">{% csrf_token %}
                                 <label for="validationServerUsername">Título</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Ex: Breakfast" name="titulo">
@@ -139,15 +147,15 @@
                         </div>
 
 
+                        <div id="form-opcao" style="display: none;">
+                            <form action="{% url 'option' patient.id %}" method="POST" enctype='multipart/form-data'>{% csrf_token %}
 
-
-                        <div id="form-opcao" style="display: block;">
-                            <form action="" method="POST" enctype='multipart/form-data'>{% csrf_token %}
-
-                                <label for="validationServerUsername">Select meal</label>
+                                <label for="validationServerUsername">Selecione a refeição</label>
                                 <div class="input-group">
                                     <select class="form-control" name="refeicao">
-                                        <option value="">Breakfast</option>      
+                                        {% for re in refeicao %}
+                                            <option value="{{re.id}}">{{re.titulo}}</option>  
+                                        {% endfor %}    
                                     </select>
                                 </div>
 
@@ -170,9 +178,6 @@
                                 <input type="submit" value="Cadastrar" class="btn btn-success">
                             </form>
                         </div>
-
-                       
-                        
 
                     </form>
                 </div>
