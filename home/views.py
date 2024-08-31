@@ -114,9 +114,11 @@ def register_patient_data(request, patient_id):
     return redirect(reverse('patient_data', args=[patient_id]))
     
 
-def weight_graphic(request, patient):
-    # patient = Patient.objects.get(id=patient_id)
-    data = PatientData.objects.get(patient=patient).order_by("date")
+@login_required
+@csrf_exempt
+def weight_graphic(request, patient_id):
+    patient = Patient.objects.get(id=patient_id)
+    data = PatientData.objects.filter(patient=patient).order_by("date")
     
     weights = [patient_data.weight for patient_data in data]
     labels = list(range(len(weights)))

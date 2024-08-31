@@ -206,7 +206,7 @@ Add New Patient Data
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
     
-        fetch("/weight_graphic/{{patient.id}}",{
+        fetch("{% url 'weight_graphic' patient.id %}",{
             method: 'POST',
         }).then(function(result){
             return result.json()
@@ -218,7 +218,7 @@ Add New Patient Data
                 label: 'Weight Patient',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
-                data: patient_data['weight'],
+                data: patient_data['weights'],
                 }]
             };
     
