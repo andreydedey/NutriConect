@@ -44,13 +44,13 @@ Add New Patient Data
             </div>
             
             <div class="modal-body">
-                <form action="{% url 'patient_data' patient.id %}" method="POST">{% csrf_token %}
+                <form action="{% url 'register_patient_data' patient.id %}" method="POST">{% csrf_token %}
                     <div class="form-row">
                         <div class='col-md'>
                         
-                                <label for="validationServerUsername">Peso</label>
+                                <label for="validationServerUsername">Weight</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" placeholder="--" name="peso">
+                                    <input type="number" class="form-control" placeholder="--" name="weight">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroupPrepend3">Kg</span>
                                     </div>
@@ -59,9 +59,9 @@ Add New Patient Data
                         </div>
 
                         <div class='col-md'>
-                                <label for="validationServerUsername">Altura</label>
+                                <label for="validationServerUsername">Height</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" placeholder="--" name="altura">
+                                    <input type="number" class="form-control" placeholder="--" name="height">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroupPrepend3">cm</span>
                                     </div>
@@ -71,13 +71,13 @@ Add New Patient Data
 
                         
                     </div>
-                    <br>
+                    
                     <div class="form-row">
                         <div class='col-md'>
                         
-                                <label for="validationServerUsername">Percentual de gordura</label>
+                                <label for="validationServerUsername">Fat Percentual</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" placeholder="--" name="gordura">
+                                    <input type="number" class="form-control" placeholder="--" name="fatPercentual">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroupPrepend3">%</span>
                                     </div>
@@ -87,9 +87,9 @@ Add New Patient Data
 
                         <div class='col-md'>
                         
-                                <label for="validationServerUsername">Percentual de músculo</label>
+                                <label for="validationServerUsername">Muscle Percentual</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" placeholder="--" name="musculo">
+                                    <input type="number" class="form-control" placeholder="--" name="musclePercentual">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroupPrepend3">%</span>
                                     </div>
@@ -100,7 +100,7 @@ Add New Patient Data
                         
                     </div>
                     <br>
-                    <h4 class="titulo">Dados laboratoriais</h4>
+                    <h4 class="titulo">Lab Data</h4>
                     <div class="form-row">
                         <div class='col-md'>
                         
@@ -132,7 +132,7 @@ Add New Patient Data
                     <div class="form-row">
                         <div class='col-md'>
                         
-                                <label for="validationServerUsername">Colesterol total</label>
+                                <label for="validationServerUsername">Total Colesterol</label>
                                 <div class="input-group">
                                     <input type="number" class="form-control" placeholder="--" name="ctotal">
                                     <div class="input-group-prepend">
@@ -144,9 +144,9 @@ Add New Patient Data
 
                         <div class='col-md'>
                         
-                                <label for="validationServerUsername">Triglicerídios</label>
+                                <label for="validationServerUsername">Tryglycerides</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" placeholder="--" name="triglicerídios">
+                                    <input type="number" class="form-control" placeholder="--" name="triglycerides">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroupPrepend3">mg/dL</span>
                                     </div>
@@ -199,6 +199,40 @@ Add New Patient Data
         </tbody>
     </table>
     
-
+    <div style="width: 60%;">
+        <canvas id="myChart"></canvas>
+    </div>  
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    
+        fetch("/weight_graphic/{{patient.id}}",{
+            method: 'POST',
+        }).then(function(result){
+            return result.json()
+        }).then(function(patient_data){
+           
+            const data = {
+                labels: patient_data['labels'],
+                datasets: [{
+                label: 'Weight Patient',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: patient_data['weight'],
+                }]
+            };
+    
+            const config = {
+                type: 'line',
+                data: data,
+                options: {}
+            };
+    
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        })    
+    </script>
         
 {% endblock%}

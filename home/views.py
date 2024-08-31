@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
@@ -7,6 +7,7 @@ from Users.models import Patient
 from .models import PatientData
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -51,6 +52,14 @@ def register_patient(request):
 
 
 @login_required
+def list_patients(request):
+    patients = Patient.objects.filter(nutritionist=request.user)
+    return render(request, 'list_patients.html', {
+        "patients": patients
+    })
+
+
+@login_required
 def patient_data(request, patient_id):
     try:
         patient = Patient.objects.get(id=patient_id)
@@ -62,7 +71,7 @@ def patient_data(request, patient_id):
         return redirect(reverse('patients'))
     
     try:
-        patient_data = PatientData.objects.get(patient=patient_id)
+        patient_data = PatientData.objects.filter(patient=patient_id)
     except(ObjectDoesNotExist):
         patient_data = None
 
@@ -72,38 +81,48 @@ def patient_data(request, patient_id):
     })
 
 
-def register_patient_data(request):
+def register_patient_data(request, patient_id):
+    patient = Patient.objects.get(id=patient_id)
     weight = request.POST.get('weight')
     height = request.POST.get('height')
     fatPercentual = request.POST.get('fatPercentual')
     musclePercentual = request.POST.get('musclePercentual')
-    hdlColesterol = request.POST.get('hdlColesterol')
-    ldlColesterol = request.POST.get('ldlColesterol')
-    totalColesterol = request.POST.get('totalColesterol')
-    tryglycerides = request.POST.get('tryglycerides')
+    hdlColesterol = request.POST.get('hdl')
+    ldlColesterol = request.POST.get('ldl')
+    totalColesterol = request.POST.get('ctotal')
+    tryglycerides = request.POST.get('triglycerides')
 
     try:
         patient_data = PatientData (
-            # patient = patient.id
+            patient = patient,
             date=datetime.now().date().strftime('%Y-%m-%d'),
             weight=weight,
             height=height,
-            fat_Percentual=fatPercentual,
+            fat_percentual=fatPercentual,
             muscle_percentual=musclePercentual,
             hdl_colesterol=hdlColesterol,
             ldl_colesterol=ldlColesterol,
             total_colesterol=totalColesterol,
-            tryglycerides=tryglycerides
+            triglycerides=tryglycerides
         )
 
         patient_data.save()
+        print('salvou')
     except Exception as e:
         print(e)
+
+    return redirect(reverse('patient_data', args=[patient_id]))
     
 
-@login_required
-def list_patients(request):
-    patients = Patient.objects.filter(nutritionist=request.user)
-    return render(request, 'list_patients.html', {
-        "patients": patients
-    })
+def weight_graphic(request, patient):
+    # patient = Patient.objects.get(id=patient_id)
+    data = PatientData.objects.get(patient=patient).order_by("date")
+    
+    weights = [patient_data.weight for patient_data in data]
+    labels = list(range(len(weights)))
+    
+    patient_weight_data = {
+        'weights': weights,
+        'labels': labels
+    }
+    return JsonResponse(patient_weight_data)
