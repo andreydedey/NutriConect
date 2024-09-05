@@ -44,7 +44,6 @@ Set Up the Dabase
 python manage.py migrate
 ```
 
-Run the Development Server
-```bash
-python manage.py runserver
-```
+## Project Overview
+
+You can view the [Project Vision on Figma](https://www.figma.com/design/fAiirJglxoxkVpkspd3Pnd/PSW-4.0?node-id=0-1&node-type=CANVAS&t=uKzf3EvkE9YqnbKM-0) to see the design and layout concepts.
